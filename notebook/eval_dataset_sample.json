@@ -1,0 +1,109 @@
+{
+  "description": "Starter evaluation dataset for the multimodal RAG pipeline. Built from the two sample documents already present in the V1 repo, so it can be run against the existing Qdrant collection with no new ingestion required. Each record maps to Section 10 of the production design doc.",
+  "schema": {
+    "id": "unique eval case id",
+    "question": "user query sent to the retrieval + generation pipeline",
+    "expected_source": "filename and page(s) that should be present in the retrieved evidence / citations",
+    "expected_answer": "reference answer used for correctness/groundedness scoring",
+    "modality_tag": "text | table | image  (which retrieval path this case stresses)",
+    "difficulty": "easy | medium | hard"
+  },
+  "cases": [
+    {
+      "id": "eval_001",
+      "question": "What response target and resolution target apply to a P1 complete outage for API Availability?",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 6 (SLA table)",
+      "expected_answer": "A P1 complete outage for API Availability has a 15 minute response target and a 4 hour resolution target, with a 10 percent monthly fee service credit if missed.",
+      "modality_tag": "table",
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_002",
+      "question": "Within how many days must a refund request be raised after purchase?",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 5 (Policy table)",
+      "expected_answer": "Refund requests must be raised within 7 days of purchase.",
+      "modality_tag": "table",
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_003",
+      "question": "What is the required action and citation for the Confidentiality clause, and who owns it?",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 4 (Clause table, clause 7.2)",
+      "expected_answer": "Clause 7.2 (Confidentiality), owned by the Receiving Party, is triggered on receipt of confidential material and requires protecting the information with reasonable care and equivalent internal controls. Citation hint: Page 4, clause 7.2.",
+      "modality_tag": "table",
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_004",
+      "question": "List the five related documents under contract group BLR-ACME-2026 with their effective dates.",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 10 (document relationship table)",
+      "expected_answer": "BLR-MSA-001 (Master Service Agreement, 2026-04-01), BLR-NDA-002 (NDA, 2026-04-01), BLR-SOW-003 (Statement of Work, 2026-04-15), BLR-PRICE-004 (Pricing Amendment, 2026-05-01), BLR-SLA-005 (Support SLA, 2026-05-10).",
+      "modality_tag": "table",
+      "difficulty": "hard"
+    },
+    {
+      "id": "eval_005",
+      "question": "How often must privileged access be reviewed, and who owns that policy?",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 5 (Policy table)",
+      "expected_answer": "Privileged access must be reviewed every 30 days, owned by Security, on a monthly review cycle.",
+      "modality_tag": "table",
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_006",
+      "question": "What parsing challenges are called out for the Images section of this document, and why do they matter for RAG?",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 1 (overview table)",
+      "expected_answer": "Images include an architecture diagram, a heatmap, and a scanned form; they matter for RAG because they need OCR or multimodal extraction to be searchable.",
+      "modality_tag": "text",
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_007",
+      "question": "Which client has a repeated battery incident issue, and who are the primary users for that client's documents?",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 2 (client overview table)",
+      "expected_answer": "CityRide Mobility; primary users are Operations. Typical question: which depot had repeated battery incidents?",
+      "modality_tag": "table",
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_008",
+      "question": "Describe the diagram on page 7 that shows the document processing flow, including box labels and arrows.",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 7 (architecture diagram image)",
+      "expected_answer": "The diagram shows a processing pipeline with labeled boxes (Raw Files, Parser, Chunks, Vector DB) connected by arrows indicating processing order, with a caption describing the diagram.",
+      "modality_tag": "image",
+      "difficulty": "hard"
+    },
+    {
+      "id": "eval_009",
+      "question": "What data residency requirement applies under clause 9.1, and who is responsible for it?",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 4 (Clause table, clause 9.1)",
+      "expected_answer": "Clause 9.1 (Data residency), owned by the Service Provider: when the SOW specifies a region, production records must be processed only in the approved region.",
+      "modality_tag": "table",
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_010",
+      "question": "What context length was Llama 2 pretrained with, and how does it compare to Llama 1?",
+      "expected_source": "llama2-research-paper.pdf, early sections covering pretraining setup",
+      "expected_answer": "Llama 2 was pretrained with a context length of 4096 tokens, double the 2048-token context length of Llama 1.",
+      "modality_tag": "text",
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_011",
+      "question": "What alignment techniques were used to produce Llama 2-Chat from the pretrained Llama 2 model?",
+      "expected_source": "llama2-research-paper.pdf, fine-tuning/alignment sections",
+      "expected_answer": "Llama 2-Chat was produced using supervised fine-tuning (SFT) followed by reinforcement learning with human feedback (RLHF), including rejection sampling and Proximal Policy Optimization (PPO).",
+      "modality_tag": "text",
+      "difficulty": "hard"
+    },
+    {
+      "id": "eval_012",
+      "question": "What escalation matrix or evidence is required to claim a service credit for a P2 degraded performance incident on API Availability?",
+      "expected_source": "Client_Contracts_Policies_and_Incident_Records.pdf, page 6 (SLA table)",
+      "expected_answer": "Evidence required is the latency dashboard and the affected endpoint list; the service credit is 5 percent of the monthly fee.",
+      "modality_tag": "table",
+      "difficulty": "medium"
+    }
+  ]
+}
